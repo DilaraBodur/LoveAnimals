@@ -57,48 +57,49 @@ struct TierheimRegisterView: View {
     }
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 20) {
-                
-                TextField("Tierheim-Name", text: $tierheimName)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal)
-                    .autocorrectionDisabled(true)
-                    .textInputAutocapitalization(.words)
-                    .keyboardType(.asciiCapable)
-                
-                TextField("Homepage (optional)", text: $homepage)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal)
-                    .autocorrectionDisabled(true)
-                    .textInputAutocapitalization(.words)
-                    .keyboardType(.asciiCapable)
-                
-                TextField("Telefon", text: $telefon)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal)
-                    .autocorrectionDisabled(true)
-                    .textInputAutocapitalization(.words)
-                    .keyboardType(.asciiCapable)
-                
-                TextField("Straße", text: $straße)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
-                    .padding(.horizontal)
-                    .autocorrectionDisabled(true)
-                    .textInputAutocapitalization(.words)
-                    .keyboardType(.asciiCapable)
-                
-                HStack {
-                    TextField("PLZ", text: $plz)
-                        .frame(width: 100)
-                    TextField("Ort", text: $ort)
+        NavigationStack {
+            ScrollView {
+                VStack(alignment: .leading, spacing: 20) {
+                    
+                    TextField("Tierheim-Name", text: $tierheimName)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+                        .autocorrectionDisabled(true)
                         .textInputAutocapitalization(.words)
-                }
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .autocorrectionDisabled(true)
-                .keyboardType(.asciiCapableNumberPad)
-                .padding(.horizontal)
-                
+                        .keyboardType(.asciiCapable)
+                    
+                    TextField("Homepage (optional)", text: $homepage)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+                        .autocorrectionDisabled(true)
+                        .textInputAutocapitalization(.words)
+                        .keyboardType(.asciiCapable)
+                    
+                    TextField("Telefon", text: $telefon)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+                        .autocorrectionDisabled(true)
+                        .textInputAutocapitalization(.words)
+                        .keyboardType(.asciiCapable)
+                    
+                    TextField("Straße", text: $straße)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.horizontal)
+                        .autocorrectionDisabled(true)
+                        .textInputAutocapitalization(.words)
+                        .keyboardType(.asciiCapable)
+                    
+                    HStack {
+                        TextField("PLZ", text: $plz)
+                            .frame(width: 100)
+                        TextField("Ort", text: $ort)
+                            .textInputAutocapitalization(.words)
+                    }
+                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                    .autocorrectionDisabled(true)
+                    .keyboardType(.asciiCapableNumberPad)
+                    .padding(.horizontal)
+                    
                     TextField("E-Mail", text: $email)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal)
@@ -124,86 +125,86 @@ struct TierheimRegisterView: View {
                             .font(.footnote)
                             .padding(.horizontal)
                     }
-                
-                Group {
-                    if showPassword {
-                        TextField("Passwort", text: $passwort)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .focused($isPasswordFieldFocused)
-                            .onChange(of: passwort) { _, newValue in
-                                validatePassword()
-                            }
-                    } else {
-                        SecureField("Passwort", text: $passwort)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .focused($isConfirmPasswordFieldFocused)
-                            .textContentType(.oneTimeCode)
-                            .onChange(of: passwort) { _, newValue in
-                                validatePassword()
-                            }
-                    }
                     
-                    if showPassword {
-                        TextField("Passwort bestätigen", text: $confirmPassword)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .focused($isConfirmPasswordFieldFocused)
-                            .onChange(of: confirmPassword) { _, newValue in
-                                validatePassword()
-                            }
-                    } else {
-                        SecureField("Passwort bestätigen", text: $confirmPassword)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .focused($isConfirmPasswordFieldFocused)
-                            .textContentType(.oneTimeCode)
-                            .onChange(of: confirmPassword) { _, newValue in
-                                validatePassword()
-                            }
+                    Group {
+                        if showPassword {
+                            TextField("Passwort", text: $passwort)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .focused($isPasswordFieldFocused)
+                                .onChange(of: passwort) { _, newValue in
+                                    validatePassword()
+                                }
+                        } else {
+                            SecureField("Passwort", text: $passwort)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .focused($isConfirmPasswordFieldFocused)
+                                .textContentType(.oneTimeCode)
+                                .onChange(of: passwort) { _, newValue in
+                                    validatePassword()
+                                }
+                        }
+                        
+                        if showPassword {
+                            TextField("Passwort bestätigen", text: $confirmPassword)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .focused($isConfirmPasswordFieldFocused)
+                                .onChange(of: confirmPassword) { _, newValue in
+                                    validatePassword()
+                                }
+                        } else {
+                            SecureField("Passwort bestätigen", text: $confirmPassword)
+                                .textFieldStyle(RoundedBorderTextFieldStyle())
+                                .focused($isConfirmPasswordFieldFocused)
+                                .textContentType(.oneTimeCode)
+                                .onChange(of: confirmPassword) { _, newValue in
+                                    validatePassword()
+                                }
+                        }
                     }
-                }
-                .padding(.horizontal)
-                
-                if isPasswordFieldFocused || isConfirmPasswordFieldFocused {
-                    VStack(alignment: .leading, spacing: 5) {
-                        PasswortKriterien(text: "Mindestens 6 Zeichen", isValid: passwort.count >= 6)
-                        PasswortKriterien(text: "Mindestens ein Großbuchstabe", isValid: passwort.rangeOfCharacter(from: .uppercaseLetters) != nil)
-                        PasswortKriterien(text: "Mindestens ein Kleinbuchstabe", isValid: passwort.rangeOfCharacter(from: .lowercaseLetters) != nil)
-                        PasswortKriterien(text: "Mindestens eine Zahl", isValid: passwort.rangeOfCharacter(from: .decimalDigits) != nil)
-                    }
-                    .font(.footnote)
                     .padding(.horizontal)
-                }
-                
-                if !passwortMatch && !confirmPassword.isEmpty {
-                    Text("Die Passwörter stimmen nicht überein. Bitte überprüfen Sie es erneut.")
-                        .foregroundStyle(.red)
+                    
+                    if isPasswordFieldFocused || isConfirmPasswordFieldFocused {
+                        VStack(alignment: .leading, spacing: 5) {
+                            PasswortKriterien(text: "Mindestens 6 Zeichen", isValid: passwort.count >= 6)
+                            PasswortKriterien(text: "Mindestens ein Großbuchstabe", isValid: passwort.rangeOfCharacter(from: .uppercaseLetters) != nil)
+                            PasswortKriterien(text: "Mindestens ein Kleinbuchstabe", isValid: passwort.rangeOfCharacter(from: .lowercaseLetters) != nil)
+                            PasswortKriterien(text: "Mindestens eine Zahl", isValid: passwort.rangeOfCharacter(from: .decimalDigits) != nil)
+                        }
                         .font(.footnote)
                         .padding(.horizontal)
-                }
-                
-                HStack {
-                    Button(action: {
-                        showPassword.toggle()
-                    }) {
-                        Image(systemName: showPassword ? "checkmark.square" : "square")
-                            .foregroundStyle(showPassword ? .black : .gray)
                     }
-                    .buttonStyle(PlainButtonStyle())
-                    Text("Passwort anzeigen")
-                        .font(.subheadline)
-                    Spacer()
-                }
-                .padding(.horizontal)
-                
-                
-                VStack(alignment: .leading, spacing: 20) {
-                    Text("Welche Zahlungsarten werden akzeptiert?")
+                    
+                    if !passwortMatch && !confirmPassword.isEmpty {
+                        Text("Die Passwörter stimmen nicht überein. Bitte überprüfen Sie es erneut.")
+                            .foregroundStyle(.red)
+                            .font(.footnote)
+                            .padding(.horizontal)
+                    }
+                    
                     HStack {
-                        Toggle("Barzahlung", isOn: $akzeptiertBarzahlung)
-                            .toggleStyle(CheckboxToggleStyle())
+                        Button(action: {
+                            showPassword.toggle()
+                        }) {
+                            Image(systemName: showPassword ? "checkmark.square" : "square")
+                                .foregroundStyle(showPassword ? .black : .gray)
+                        }
+                        .buttonStyle(PlainButtonStyle())
+                        Text("Passwort anzeigen")
+                            .font(.subheadline)
                         Spacer()
-                        Toggle("Überweisung", isOn: $akzeptiertUeberweisung)
-                            .toggleStyle(CheckboxToggleStyle())
                     }
+                    .padding(.horizontal)
+                    
+                    
+                    VStack(alignment: .leading, spacing: 20) {
+                        Text("Welche Zahlungsarten werden akzeptiert?")
+                        HStack {
+                            Toggle("Barzahlung", isOn: $akzeptiertBarzahlung)
+                                .toggleStyle(CheckboxToggleStyle())
+                            Spacer()
+                            Toggle("Überweisung", isOn: $akzeptiertUeberweisung)
+                                .toggleStyle(CheckboxToggleStyle())
+                        }
                         if akzeptiertUeberweisung {
                             TextField("Empfängername", text: $empfaengerName)
                                 .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -221,108 +222,108 @@ struct TierheimRegisterView: View {
                                 .textInputAutocapitalization(.words)
                                 .keyboardType(.asciiCapable)
                         }
-            
-                }
-                .padding(.horizontal)
-                .padding(.top, 20)
-                
-                VStack(alignment: .leading, spacing: 20) {
-                    HStack {
-                        Toggle(isOn: $nimmtSpendenAn) {
-                            Text("Ja wir möchten an Spenden teilnehmen.")
-                                .font(.caption)
+                        
+                    }
+                    .padding(.horizontal)
+                    .padding(.top, 20)
+                    
+                    VStack(alignment: .leading, spacing: 20) {
+                        HStack {
+                            Toggle(isOn: $nimmtSpendenAn) {
+                                Text("Ja wir möchten an Spenden teilnehmen.")
+                                    .font(.caption)
+                            }
+                            .toggleStyle(CheckboxToggleStyle())
                         }
-                        .toggleStyle(CheckboxToggleStyle())
-                    }
-                    
-                    if nimmtSpendenAn {
-                        if !akzeptiertUeberweisung {
-                            TextField("Empfängername", text: $empfaengerName)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .autocorrectionDisabled(true)
-                                .textInputAutocapitalization(.words)
-                                .keyboardType(.asciiCapable)
-                            TextField("IBAN", text: $spendenIban)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .autocorrectionDisabled(true)
-                                .textInputAutocapitalization(.words)
-                                .keyboardType(.asciiCapable)
-                            TextField("BIC", text: $spendenBic)
-                                .textFieldStyle(RoundedBorderTextFieldStyle())
-                                .autocorrectionDisabled(true)
-                                .textInputAutocapitalization(.words)
-                                .keyboardType(.asciiCapable)
-                        } else if akzeptiertUeberweisung && !empfaengerName.isEmpty && !iban.isEmpty && !bic.isEmpty {
-                            Text("Die Kontodaten für Spenden wurden übernommen.")
-                                .font(.headline)
-                        } else {
-                            Text("Bitte tragen Sie Ihre Kontodaten ein.")
-                                .font(.caption)
-                                .foregroundStyle(.red)
+                        
+                        if nimmtSpendenAn {
+                            if !akzeptiertUeberweisung {
+                                TextField("Empfängername", text: $empfaengerName)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .autocorrectionDisabled(true)
+                                    .textInputAutocapitalization(.words)
+                                    .keyboardType(.asciiCapable)
+                                TextField("IBAN", text: $spendenIban)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .autocorrectionDisabled(true)
+                                    .textInputAutocapitalization(.words)
+                                    .keyboardType(.asciiCapable)
+                                TextField("BIC", text: $spendenBic)
+                                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                                    .autocorrectionDisabled(true)
+                                    .textInputAutocapitalization(.words)
+                                    .keyboardType(.asciiCapable)
+                            } else if akzeptiertUeberweisung && !empfaengerName.isEmpty && !iban.isEmpty && !bic.isEmpty {
+                                Text("Die Kontodaten für Spenden wurden übernommen.")
+                                    .font(.headline)
+                            } else {
+                                Text("Bitte tragen Sie Ihre Kontodaten ein.")
+                                    .font(.caption)
+                                    .foregroundStyle(.red)
+                            }
                         }
                     }
-                }
-                .padding(.horizontal)
-                .padding(.top, 20)
-                
-                HStack(spacing: 0) {
-                    Button(action: {
-                        agbAccepted.toggle()
-                    }) {
-                        Image(systemName: agbAccepted ? "checkmark.square.fill" : "square")
-                            .foregroundStyle(agbAccepted ? .blue : .gray)
+                    .padding(.horizontal)
+                    .padding(.top, 20)
+                    
+                    HStack(spacing: 0) {
+                        Button(action: {
+                            agbAccepted.toggle()
+                        }) {
+                            Image(systemName: agbAccepted ? "checkmark.square.fill" : "square")
+                                .foregroundStyle(agbAccepted ? .blue : .gray)
+                        }
+                        .padding(.trailing, 10)
+                        Text("Hiermit akzeptiere ich die ")
+                            .font(.caption)
+                        
+                        NavigationLink("AGB", destination: AGBView())
+                            .foregroundStyle(.blue)
+                            .underline()
+                            .font(.caption)
+                        
+                        Text(" und ")
+                            .font(.caption)
+                        
+                        NavigationLink("Datenschutzerklärung", destination: DatenschutzView())
+                            .foregroundStyle(.blue)
+                            .underline()
+                            .font(.caption)
                     }
-                    .padding(.trailing, 10)
-                    Text("Hiermit akzeptiere ich die ")
-                        .font(.caption)
-                    
-                    NavigationLink("AGB", destination: AGBView())
-                        .foregroundStyle(.blue)
-                        .underline()
-                        .font(.caption)
-                    
-                    Text(" und ")
-                        .font(.caption)
-                    
-                    NavigationLink("Datenschutzerklärung", destination: DatenschutzView())
-                        .foregroundStyle(.blue)
-                        .underline()
-                        .font(.caption)
+                    .padding(.horizontal)
                 }
-                .padding(.horizontal)
-            }
-            .padding(.bottom, 30)
-            
+                .padding(.bottom, 30)
+                
                 VStack {
                     Button(action: {
                         Task {
                             isLoading = true
-
+                            
                             let exists = await AuthManager.shared.checkIfEmailExistsInFirestore(email: email)
-                                DispatchQueue.main.async {
-                                    if exists {
-                                        showEmailExistsError = true
-                                        isLoading = false
-                                    } else {
-                                        showEmailExistsError = false
-
-                                        Task {
-                                            await viewModel.registerTierheim(
-                                                tierheimName: tierheimName,
-                                                straße: straße,
-                                                plz: plz,
-                                                ort: ort,
-                                                telefon: telefon,
-                                                email: email,
-                                                homepage: homepage,
-                                                nimmtSpendenAn: nimmtSpendenAn,
-                                                passwort: passwort,
-                                                signedUpOn: Date()
-                                            )
-                                            navigateToHome = true
-                                        }
+                            DispatchQueue.main.async {
+                                if exists {
+                                    showEmailExistsError = true
+                                    isLoading = false
+                                } else {
+                                    showEmailExistsError = false
+                                    
+                                    Task {
+                                        await viewModel.registerTierheim(
+                                            tierheimName: tierheimName,
+                                            straße: straße,
+                                            plz: plz,
+                                            ort: ort,
+                                            telefon: telefon,
+                                            email: email,
+                                            homepage: homepage,
+                                            nimmtSpendenAn: nimmtSpendenAn,
+                                            passwort: passwort,
+                                            signedUpOn: Date()
+                                        )
+                                        navigateToHome = true
                                     }
                                 }
+                            }
                             
                         }
                     }) {
@@ -355,17 +356,18 @@ struct TierheimRegisterView: View {
                     }
                 }
                 .padding(.horizontal)
-            
-            
-        }
-        .simultaneousGesture(
-            TapGesture().onEnded {
-                UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                
+                
             }
-        )
-        .padding(.top, 20)
-        .navigationTitle("Registrierung")
-        .navigationBarBackButtonHidden(true)
+            .simultaneousGesture(
+                TapGesture().onEnded {
+                    UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+                }
+            )
+            .padding(.top, 20)
+            .navigationTitle("Registrierung")
+            .navigationBarBackButtonHidden(true)
+        }
     }
     
     private func validatePassword() {

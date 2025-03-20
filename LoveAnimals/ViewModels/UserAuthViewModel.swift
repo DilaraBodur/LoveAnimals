@@ -85,6 +85,8 @@ final class UserAuthViewModel: ObservableObject {
         } catch {
             errorMessage = error.localizedDescription
         }
+        UserDefaults.standard.set(true, forKey: "isLoggedIn")
+        UserDefaults.standard.set("user", forKey: "loggedInUsertype")
     }
     
     func createUser(userID: String, firstName: String, lastName: String, email: String, password: String, postalCode: String, city: String, birthdate: Date, signedUpOn: Date, userType: UserType) async {

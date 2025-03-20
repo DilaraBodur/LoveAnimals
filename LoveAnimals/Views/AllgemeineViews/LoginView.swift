@@ -110,7 +110,6 @@ struct LoginView: View {
                 .padding(.top, 20)
                 .padding(.bottom, 20)
             }
-            
             .onAppear {
                 let savedData = AuthManager.shared.loadLoginData()
                 DispatchQueue.main.async {

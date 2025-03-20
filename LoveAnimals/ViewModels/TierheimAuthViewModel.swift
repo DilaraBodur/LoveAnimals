@@ -68,6 +68,8 @@ final class TierheimAuthViewModel: ObservableObject {
         } catch {
             errorMessage = error.localizedDescription
         }
+        UserDefaults.standard.set(true, forKey: "isLoggedIn")
+        UserDefaults.standard.set("tierheim", forKey: "loggedInUsertype")
     }
     
     func createUserT(userId: String, tierheimName: String, straße: String, plz: String, ort: String, telefon: String, email: String, homepage: String? = nil, nimmtSpendenAn: Bool, passwort: String, signedUpOn: Date, userType: UserType) async {
